@@ -3,7 +3,7 @@
 int main(int ac, char **av)
 {
     t_map map;
-    t_cub3d all;
+    t_cub3d cub;
     t_mlx mlx;
 
     if(ac != 2)
@@ -21,16 +21,15 @@ int main(int ac, char **av)
         write(2, "Error\nParsing failed\n", 21);
         return (EXIT_FAILURE);
     }
-    cub3d.mlx = &mlx;
-    cub3d.map = &map;
+    cub.mlx = &mlx;
+    cub.map = &map;
     if(init_cub(&mlx, &map) != EXIT_SUCCESS)
     {
         write(2, "Error\nInitialization failed\n", 28);
         return (EXIT_FAILURE);
     }
-    mlx_key_hook(mlx.win_ptr, close_esc, &cub3d);
-    mlx_close_hook(mlx.win_ptr, free_close_all, &cub3d);
-    if(!mlx_loop_hook(mlx.mlx_ptr, &rycstng_loop, &cub3d))
+    mlx_key_hook(mlx.mlx_ptr, close_esc, &cub);
+    if(!mlx_loop_hook(mlx.mlx_ptr, &rycstng_loop, &cub))
     {
         write(2, "Error\nLoop failed\n", 18);
         return (EXIT_FAILURE);

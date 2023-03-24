@@ -9,15 +9,6 @@
 # include <stdbool.h>
 # include "./mlx/mlx.h"
 
-# define ALLOC_ERROR "Error\nAllocation Error\n"
-# define ARG_NULL_ERROR "Error\nArgument is NULL\n"
-# define NON_READABLE_FILE_ERROR "Error\nFile is not existent / invalid\n"
-# define INVALID_MAP_ERROR "Error\nInvalid Map in .cub file\n"
-# define INVALID_IDENTIFIER_ERROR "Error\nInvalid Identifier in .cub file\n"
-# define INVALID_COLOR_ERROR "Error\nInvalid Color in .cub file\n"
-# define INVALID_MAP_ERROR "Error\nInvalid Map in .cub file\n"
-# define INVALID_TEXTURE_PATH "Error\nInvalid Texture Path in .cub file\n"
-
 # define FOV 0.66
 # define PI 3.14159265359
 # define WALLHEIGHT 1
@@ -81,9 +72,9 @@ typedef struct s_vector
 
 typedef struct s_mlx
 {
-    mlx_t *mlx_ptr;       // mlx
-    mlx_image_t *img_ptr; // image
-    mlx_texture_t *texture[4]; // 0 = north, 1 = south, 2 = west, 3 = east
+    int *mlx_ptr;       // mlx
+    int *img_ptr; // image
+    int *texture[4]; // 0 = north, 1 = south, 2 = west, 3 = east
     t_vector vector;
 } t_mlx;
 
@@ -133,4 +124,5 @@ int ft_strncmp(const char *s1, const char *s2, size_t n);
 
 //init
 int init_game(t_mlx *mlx, t_map *map);
+void close_esc(int  key_data, void *arg);
 #endif
