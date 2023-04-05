@@ -1,4 +1,4 @@
-#include <cub3d.h>
+#include "cub3d.h"
 
 static inline void init_dir_we_ea(int first_direction, t_vector *vector)
 {
@@ -18,7 +18,7 @@ static inline void init_dir_we_ea(int first_direction, t_vector *vector)
     }
 }
 
-static inline bool init_dir_no_so(int  first_direction, t_vector *vector)
+static inline int init_dir_no_so(int  first_direction, t_vector *vector)
 {
     if(first_direction == NORTH)
     {
@@ -26,7 +26,7 @@ static inline bool init_dir_no_so(int  first_direction, t_vector *vector)
         vector->player_dir[y] = 0;
         vector->plane[x] = 0;
         vector->plane[y] = 0.66;
-        return (true);
+        return (0);
     }
     else if(first_direction == SOUTH)
     {
@@ -34,9 +34,31 @@ static inline bool init_dir_no_so(int  first_direction, t_vector *vector)
         vector->player_dir[y] = 0;
         vector->plane[x] = 0;
         vector->plane[y] = -0.66;
-        return (true);
+        return (0);
     }
-    return (false);
+    return (1);
+}
+
+
+//burada texture yukleme islemi yapiliyor ancak hata vermesi muhtemel başka structan gelen verileri kullanıyor
+void  *mlx_load_texture(int *mlx_ptr, char *path)
+{
+    t_mlx  *mlx;
+    void     *texture;
+    int     width;
+    int     height;
+    int     bpp;
+    int     size_line;
+    int     endian;
+    char    *data;
+
+    texture = mlx_xpm_file_to_image(mlx->mlx_ptr, path, &width, &height);
+    if(!texture)
+        return (0);
+    data = mlx_get_data_addr(texture, &bpp, &size_line, &endian);
+    if(!data)
+        return (0);
+    return (texture);
 }
 
 int init_game(t_mlx *mlx, t_map *map)

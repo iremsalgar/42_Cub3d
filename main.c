@@ -16,7 +16,7 @@ int main(int ac, char **av)
         write(2, "Error\nWrong file extension\n", 27);
         return (EXIT_FAILURE);
     }
-    if(!parser(av[1], &all))
+    if(!parser(av[1], &map))
     {
         write(2, "Error\nParsing failed\n", 21);
         return (EXIT_FAILURE);
@@ -28,6 +28,7 @@ int main(int ac, char **av)
         write(2, "Error\nInitialization failed\n", 28);
         return (EXIT_FAILURE);
     }
+    mlx_key_hook(mlx.mlx_ptr, key_event, &cub);
     mlx_key_hook(mlx.mlx_ptr, close_esc, &cub);
     if(!mlx_loop_hook(mlx.mlx_ptr, &rycstng_loop, &cub))
     {
