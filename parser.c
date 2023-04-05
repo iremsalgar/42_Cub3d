@@ -1,12 +1,12 @@
 #include "cub3d.h"
 
-int	print_error_return(const char *error_message, int return_code)
+int	print_error_return(char *error_message, int return_code)
 {
 	ft_putstr_fd((char *)error_message, STDERR_FILENO);
 	return (return_code);
 }
 
-inline int	is_readable_file(const char *path_to_file)
+int	is_readable_file(const char *path_to_file)
 {
 	int	fd;
 

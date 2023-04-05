@@ -1,5 +1,25 @@
 #include "cub3d.h"
 
+void	put_square(t_square *square)
+{
+	int	iter[2];
+
+	iter[y] = 0;
+	while (iter[y] < square->len[y]
+		&& iter[y] + square->start_pixel[y] < (int)square->img->height)
+	{
+		iter[x] = 0;
+		while (iter[x] < square->len[x]
+			&& iter[x] + square->start_pixel[x] < (int)square->img->width)
+		{
+			mlx_put_pixel(square->img, square->start_pixel[x] + iter[x],
+				square->start_pixel[y] + iter[y], square->color);
+			iter[x]++;
+		}
+		iter[y]++;
+	}
+}
+
 static inline void put_floor(void *img_ptr, t_map *map)
 {
     t_square	square;
@@ -41,7 +61,10 @@ void rycstng_loop(void *data)
     static t_raycast cast;
     t_map *map;
     t_mlx *mlx;
+	t_cub3d *cub;
 
+	cub.mlx = &mlx;
+    cub.map = &map;
     map = ((t_cub3d *)data)->map;
     mlx = ((t_cub3d *)data)->mlx;
     put_floor(mlx->img_ptr, map);
@@ -54,6 +77,5 @@ void rycstng_loop(void *data)
         draw_wall(&cast, mlx, ray_iter);
         ray_iter++;
     }
-    check_move(&(mlx->vector), map->map_content, mlx->mlx_ptr);
-    check_rotate(&(mlx->vector), mlx->mlx_ptr);
+    mlx_key_hook(mlx->mlx_ptr, key_event, &cub);
 }

@@ -30,15 +30,13 @@ static inline void	rotate_right(
 	+ vectors->plane[y] * cos(ROTSPEED);
 }
 
-void	check_rotation(struct s_vector *vectors, t_mlx *mlx_ptr)
+void	check_rotate(t_vector *vectors, t_mlx *mlx_ptr)
 {
 	double	old_player_dir[1];
 	double	old_camera_plane[1];
 
 	old_player_dir[x] = vectors->player_dir[x];
 	old_camera_plane[x] = vectors->plane[x];
-	if (mlx_key_hook(mlx_ptr, key_event(KEY_LEFT), move_left_right))
-		rotate_left(vectors, old_player_dir, old_camera_plane);
-	if (mlx_key_hook(mlx_ptr, key_event(KEY_RIGHT), move_left_right))
-		rotate_right(vectors, old_player_dir, old_camera_plane);
+	rotate_left(vectors, old_player_dir, old_camera_plane);
+	rotate_right(vectors, old_player_dir, old_camera_plane);
 }

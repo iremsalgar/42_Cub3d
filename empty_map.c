@@ -63,7 +63,7 @@ static inline int	ft_free_map_return(char **scene_content, int ret)
 	return (ret);
 }
 
-int print_error_exit(char *error_msg, int error_code, char *error_file)
+int ft_print_error_exit(char *error_msg, int error_code, char *error_file)
 {
 	if (error_msg)
 	{
@@ -88,7 +88,7 @@ int		has_non_empty_lines_after_map(const char *scene_file_path)
 
 	scene_content = get_scene_content(scene_file_path);
 	if (scene_content == NULL)
-		print_error_exit(ALLOC_ERROR, -1, NULL);
+		ft_print_error_exit(ALLOC_ERROR, -1, NULL);
 	i = 0;
 	was_in_map = 1;
 	iterate_content(scene_content, &i, &was_in_map);

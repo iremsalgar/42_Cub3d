@@ -56,8 +56,15 @@ void	move_forward_back(struct s_vector *vector, char **map, t_mlx *mlx_ptr, int 
 	}
 }
 
-void	check_movement(t_vector *vectors, char **map, t_mlx *mlx_ptr, int flag)
+void	check_move(t_vector *vectors, char **map, t_mlx *mlx_ptr)
 {
-	move_forward_back(vectors, map, mlx_ptr, flag);
-	move_left_right(vectors, map, mlx_ptr, flag);
+	int flag;
+	t_cub3d cub;
+	t_mlx mlx;
+
+	mlx_key_hook(mlx.mlx_ptr, key_event, &cub);
+	if()
+		move_left_right(vectors, map, mlx_ptr, flag);
+	if(flag == 3 || flag == 4)
+		move_forward_back(vectors, map, mlx_ptr, flag);
 }

@@ -1,63 +1,12 @@
 #include "cub3d.h"
 
-//HATALI
-
-void mlx_delete_texture(int *texture_num)
-{
-    t_mlx *tmp;
-    int i;
-    i = texture_num;
-    if (tmp->texture[i])
-        mlx_destroy_image(tmp->mlx_ptr, tmp->img_ptr);
-    free(tmp->texture[i]);
-}
-
-void	free_close_all(void *arg)
-{
-	t_cub3d	*cub3d;
-
-	cub3d = (t_cub3d *)arg;
-	ft_free_split(cub3d->map->map_content);
-	free(cub3d->map->texture[0]);
-	free(cub3d->map->texture[1]);
-	free(cub3d->map->texture[2]);
-	free(cub3d->map->texture[3]);
-	mlx_delete_image(cub3d->mlx->mlx_ptr, cub3d->mlx->img_ptr);
-	mlx_delete_texture(cub3d->mlx->texture[NORTH]);
-	mlx_delete_texture(cub3d->mlx->texture[SOUTH]);
-	mlx_delete_texture(cub3d->mlx->texture[WEST]);
-	mlx_delete_texture(cub3d->mlx->texture[EAST]);
-}
-
-//mlx delete image
-
-void mlx_delete_image(t_mlx *mlx, t_img *img)
-{
-    if (img->img_ptr)
-        mlx_destroy_image(mlx->mlx_ptr, img->img_ptr);
-    free(img);
-}
-
-/*
-void free_at_window_close(t_cub3d *cub3d)
-{
-    int i;
-    
-    i = -1;
-    while (++i < 5)
-        free(cub3d->map->texture[i]);
-    free(cub3d->map->map_content);
-    free(cub3d->map);
-    free(cub3d->mlx->mlx_ptr);
-    free(cub3d->mlx->win_ptr);
-    free(cub3d->mlx->img_ptr);
-    free(cub3d->mlx);
-    free(cub3d);
-}*/
-
-int key_event(int key_data)
+int key_event(int key_data, void *arg)
 {
     t_cub3d *cub3d;
+
+    cub3d = (t_cub3d *)arg;
+    t_vector *vector;
+    t_mlx *mlx;
     t_vector *vector;
 
     if(key_data == KEY_A)
@@ -68,6 +17,9 @@ int key_event(int key_data)
         move_forward_back(vector, cub3d->map->map_content, cub3d->mlx, 3);
     if(key_data == KEY_S)
         move_forward_back(vector, cub3d->map->map_content, cub3d->mlx, 4);
+    if(key_data == KEY_LEFT || key_data == KEY_RIGHT)
+        check_rotate(vector, mlx);
+    return(0);
 }
 
 int close_esc(int  key_data, void *arg)
@@ -77,8 +29,7 @@ int close_esc(int  key_data, void *arg)
     cub3d = (t_cub3d *)arg;
     if (key_data == KEY_ESC)
     {
-        free_close_all(cub3d);
-        mlx_close_window(cub3d->mlx->mlx_ptr);
+        //free and close window
     }
     return (0);
 }

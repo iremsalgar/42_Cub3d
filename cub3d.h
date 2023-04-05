@@ -70,10 +70,10 @@ typedef struct s_player
 
 typedef struct s_map  //sce_Des
 {
-    char *texture[4];
-    char **map_content;
-    int floor_color;
-    int sky_color;
+    char    *texture[4];
+    char    **map_content;
+    int     floor_color;
+    int     sky_color;
     t_player player;
 } t_map;
 
@@ -84,13 +84,27 @@ typedef struct s_vector
     double plane[2]; // x, y planeX / planeY camera
 } t_vector;
 
+typedef struct s_texture
+{
+    void    *img;
+    int     *addr;
+    int     bits_per_pixel;
+    int     line_length;
+    int     endian;
+    int     width;
+    int     height;
+    void    *mlx_ptr;
+}               t_texture;
+
 typedef struct s_mlx  //game
 {
-    int *mlx_ptr;       // mlx
-    void *img_ptr; // image
-    int *win_ptr; // window
-    int *texture[4]; // 0 = north, 1 = south, 2 = west, 3 = east
-    t_vector vector;
+    void        *mlx_ptr;       // mlx
+    void        *img_ptr; // image
+    int         *win_ptr; // window
+    t_texture   *texture[4]; // 0 = north, 1 = south, 2 = west, 3 = east
+    t_vector    vector;
+    int         width;
+    int         height;
 } t_mlx;
 
 typedef struct s_cub3d
@@ -135,23 +149,12 @@ typedef struct s_draw
 
 typedef struct s_square
 {
-    void *img;
+    t_mlx   *img;
     int start_pixel[2]; // x, y
     int len[2]; // x, y
     int color;
 } t_square;
 
-typedef struct s_texture
-{
-    void    *img;
-    int     *addr;
-    int     bits_per_pixel;
-    int     line_length;
-    int     endian;
-    int     width;
-    int     height;
-    void    *mlx_ptr;
-}               t_texture;
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
@@ -174,8 +177,9 @@ char	*ft_cutter(char *str, char c, int i);
 
 //functions
 int     main(int ac, char **av);
-int     key_event(int key_data);
-int print_error_exit(char *error_msg, int error_code, char *error_file);
+int     key_event(int key_data, void *arg);
+void    print_error_exit(char *error_msg, int error_code, char *error_file);
+int     ft_print_error_exit(char *error_msg, int error_code, char *error_file);
 
 //close
 
@@ -197,8 +201,8 @@ void    draw_wall(t_raycast *cast, t_mlx *game, int ray_iter);
 void    mlx_put_pixel(t_img *img, int x, int y, int color);
 
 //move and rotate
-
-void	check_movement(t_vector *vectors, char **map, t_mlx *mlx_ptr, int flag);
+void	check_rotate(struct s_vector *vectors, t_mlx *mlx_ptr);
+void	check_move(t_vector *vectors, char **map, t_mlx *mlx_ptr, int flag);
 void	move_forward_back(struct s_vector *vector, char **map, t_mlx *mlx_ptr, int flag);
 void	move_left_right(t_vector *vectors, char **map, t_mlx *mlx_ptr, int flag);
 static inline void	move(
@@ -207,6 +211,23 @@ static inline void	move(
 
 //rgba
 int	rgba(int r, int g, int b, int a);
+int	set_textures_and_colors_from_content(
+		char ***scene_content,
+		t_map *scene_desc
+		);
+int	set_floor_color(
+		t_map *scene_description,
+		int r, int g, int b
+		);
+int	set_ceiling_color(
+		t_map *scene_description,
+		int r, int g, int b
+);
+int	get_scene_description_from_content(
+		char **scene_file_content,
+		t_map *scene_description
+);
+bool	is_valid_color_description(char *desc);
 
 //parser
 
@@ -216,7 +237,7 @@ int	parser(
 		);
 int 	has_valid_map(const char *scene_file_path);
 int 	has_player(char *line);
-int 	has_valid_identifier(const char *scene_file_path);
+bool	has_valid_identifiers(const char *scene_file_path);
 int 	has_non_empty_lines_after_map(const char *scene_file_path);
 int 	line_has_valid_walls(
 char    *line_to_check, int j, const char *original_line);
@@ -228,13 +249,14 @@ char	**get_scene_file_content(
 );
 char	**get_map(char *scene_file_path);
 char	**adjust_map(char *map[]);
+int	is_readable_file(const char *path_to_file);
 
 //wall
-
 int	has_valid_walls(const char *scene_file_path);
 static inline int	is_valid(char *map[], int i, int j);
 int	is_valid_map_char(char ch);
 int	is_wall(char ch);
+
 //utils
 int     ft_strlen(const char *s);
 int     ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -253,4 +275,9 @@ char	*ft_strchr(const char *s, int c);
 int     ft_strcmp(const char *s1, const char *s2);
 int     free_map_return(char *map[], int return_value);
 int     print_error_return(char *error_message, int return_value);
+char	*ft_append(char **dst, char *src);
+int     ft_free(void *ptr);
+int     ft_chrcount(const char *str, char ch);
+char	**ft_split_set(char *str, char *set);
+char	*ft_strtrim(char const *s, char const *set);
 #endif

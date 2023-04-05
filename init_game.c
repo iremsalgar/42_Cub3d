@@ -88,7 +88,7 @@ int init_game(t_mlx *mlx, t_map *map)
         write(2, "Error\nImage initialization failed\n", 34);
         return (EXIT_FAILURE);
     }
-    if(mlx_image_to_window(mlx->mlx_ptr, mlx->img_ptr, 0, 0) != EXIT_SUCCESS)
+    if(mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr ,mlx->img_ptr, 0, 0) != EXIT_SUCCESS)
     {
         write(2, "Error\nImage to window failed\n", 29);
         return (EXIT_FAILURE);

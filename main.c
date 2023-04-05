@@ -1,5 +1,12 @@
 #include "cub3d.h"
 
+void mlx_terminate(int *mlx_ptr)
+{
+    if (mlx_ptr)
+        mlx_destroy_display(mlx_ptr);
+    free(mlx_ptr);
+}
+
 int main(int ac, char **av)
 {
     t_map map;
@@ -23,12 +30,11 @@ int main(int ac, char **av)
     }
     cub.mlx = &mlx;
     cub.map = &map;
-    if(init_cub(&mlx, &map) != EXIT_SUCCESS)
+    if(init_game(&mlx, &map) != EXIT_SUCCESS)
     {
         write(2, "Error\nInitialization failed\n", 28);
         return (EXIT_FAILURE);
     }
-    mlx_key_hook(mlx.mlx_ptr, key_event, &cub);
     mlx_key_hook(mlx.mlx_ptr, close_esc, &cub);
     if(!mlx_loop_hook(mlx.mlx_ptr, &rycstng_loop, &cub))
     {
@@ -36,6 +42,6 @@ int main(int ac, char **av)
         return (EXIT_FAILURE);
     }
     mlx_loop(mlx.mlx_ptr);
-    mlx_terminate(mlx.mlx_ptr);
+    //mlx_terminate(mlx.mlx_ptr);
     return (EXIT_SUCCESS);
 }

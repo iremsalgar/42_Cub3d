@@ -189,3 +189,51 @@ int	free_map_return(char *map[], int return_value)
 	ft_free_split(map);
 	return (return_value);
 }
+
+/* Appends src to dst, frees dst and returns newly created string */
+
+int ft_free(void *ptr)
+{
+	if (ptr)
+	{
+		free(ptr);
+		ptr = NULL;
+	}
+	return (0);
+}
+
+char	*ft_append(char **dst, char *src)
+{
+	char	*dst_buf;
+	char	*appendet;
+	int		appendet_len;
+
+	dst_buf = *dst;
+	appendet_len = ft_strlen(dst_buf) + ft_strlen(src);
+	if (appendet_len == 0)
+		return (NULL);
+	appendet = malloc((appendet_len + 1) * sizeof(*appendet));
+	if (appendet == NULL)
+		return (NULL);
+	while (dst_buf && *dst_buf)
+		*appendet++ = *dst_buf++;
+	while (src && *src)
+		*appendet++ = *src++;
+	*appendet = '\0';
+	ft_free((void *)dst);
+	return (appendet - appendet_len);
+}
+
+int	ft_chrcount(const char *str, char ch)
+{
+	int	count;
+
+	count = 0;
+	while (str && *str)
+	{
+		if (*str == ch)
+			count++;
+		str++;
+	}
+	return (count);
+}
