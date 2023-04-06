@@ -7,7 +7,6 @@ int key_event(int key_data, void *arg)
     cub3d = (t_cub3d *)arg;
     t_vector *vector;
     t_mlx *mlx;
-    t_vector *vector;
 
     if(key_data == KEY_A)
         move_left_right(vector, cub3d->map->map_content, cub3d->mlx, 2);
@@ -30,6 +29,7 @@ int close_esc(int  key_data, void *arg)
     if (key_data == KEY_ESC)
     {
         //free and close window
+        return(0);
     }
     return (0);
 }

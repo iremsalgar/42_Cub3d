@@ -1,38 +1,31 @@
-SRCS			= main.c close_for_hook.c cub3d_utils.c \
-				  dda.c empty_map.c get_map_game.c \
-				  init_game.c move.c parse_file.c \
-				  parse_last_color_sky_floor.c \
-				  parse_map.c parse_utils.c \
-				  parse.c raycast.c rotate.c \
-				  valid_identifiers.c wall.c \
+SRCS 	= $(wildcard *.c)
 
+OBJS 	= $(SRCS:.c=.o)
 
-OBJS			= $(SRCS:.c=.o)
+CC 		= gcc
 
-CC				= gcc
-RM				= rm -f
-CFLAGS			= -O3 -Wall -Wextra -Werror -I.
-LIBS			= -Lmlx -lmlx -framework OpenGL -framework AppKit -lm
-MLX				= libmlx.dylib
+MFLAGS 	=  ./mlx/libmlx.a
 
-NAME			= cub3D
+AFLAGS 	=  -Wall -Wextra -Werror -I./mlx 
 
-all:			$(NAME)
+RM 		= rm -rf
 
-$(NAME):		$(MLX) $(OBJS)
-				gcc ${CFLAGS} -o ${NAME} ${OBJS} ${LIBS}
+NAME 	= cub3d
 
-$(MLX):
-				@$(MAKE) -C mlx
-				@mv mlx/$(MLX) .
+MAKE 	= make -C 
 
-clean:
-				@$(MAKE) -C mlx clean
-				$(RM) $(OBJS) $(BONUS_OBJS)
+all 	:$(NAME)
 
-fclean:			clean
-				$(RM) $(NAME) $(MLX)
+$(NAME)	: $(OBJS)
+	$(CC) $(OBJS) $(MFLAGS) $(CFLAGS) -framework OpenGL -framework AppKit -o $(NAME)
 
-re:				fclean $(NAME)
+fclean 	: clean
+	$(RM) ./*.a
+	$(RM) $(NAME)
 
-.PHONY:			all clean fclean re
+clean 	:
+	$(RM) ./*.o
+
+re 		: fclean all
+
+.PHONY 	: all fclean clean re

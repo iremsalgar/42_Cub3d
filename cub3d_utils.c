@@ -237,3 +237,13 @@ int	ft_chrcount(const char *str, char ch)
 	}
 	return (count);
 }
+
+int ft_str_arr_len(char **arr)
+{
+	int i;
+
+	i = 0;
+	while (arr && arr[i])
+		i++;
+	return (i);
+}

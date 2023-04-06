@@ -28,16 +28,7 @@ static inline void	texture_calc( t_draw *tex, t_raycast *cast, t_mlx *game)
 			+ (tex->wall_height / 2)) * tex->step;
 }
 
-void mlx_put_pixel(t_img *img, int x, int y, int color)
-{
-    char	*dst;
-
-    dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-    *(unsigned int*)dst = color;
-	
-}
-
-static int tex_rgba(t_draw *tex, t_img *tex_img)
+static int tex_rgba(t_draw *tex, t_texture *tex_img)
 {
     int color;
 
@@ -54,7 +45,7 @@ void draw_wall(t_raycast *cast, t_mlx *game, int ray_iter)
 	while (tex.draw_start < tex.draw_end)
 	{
 		tex.tex_pixel[x] = (int)tex.tex_pos;
-        mlx_put_pixel(game->img_ptr, ray_iter, tex.draw_start,
+        mlx_pixel_put(game->img_ptr, game->win_ptr, tex.draw_start, tex.draw_end,
 			tex_rgba(&tex, game->texture[cast->wall_dir]));
 		tex.tex_pos += tex.step;
 		tex.draw_start++;

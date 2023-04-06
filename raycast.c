@@ -12,7 +12,7 @@ void	put_square(t_square *square)
 		while (iter[x] < square->len[x]
 			&& iter[x] + square->start_pixel[x] < (int)square->img->width)
 		{
-			mlx_put_pixel(square->img, square->start_pixel[x] + iter[x],
+			mlx_pixel_put(square->img, square->img->win_ptr, square->start_pixel[x] + iter[x],
 				square->start_pixel[y] + iter[y], square->color);
 			iter[x]++;
 		}
@@ -63,8 +63,8 @@ void rycstng_loop(void *data)
     t_mlx *mlx;
 	t_cub3d *cub;
 
-	cub.mlx = &mlx;
-    cub.map = &map;
+	cub->mlx = mlx;
+    cub->map = map;
     map = ((t_cub3d *)data)->map;
     mlx = ((t_cub3d *)data)->mlx;
     put_floor(mlx->img_ptr, map);
@@ -78,4 +78,13 @@ void rycstng_loop(void *data)
         ray_iter++;
     }
     mlx_key_hook(mlx->mlx_ptr, key_event, &cub);
+}
+
+int ray_loop(void *data)
+{
+	while(1)
+	{
+		rycstng_loop(data);
+	}
+	return (0);
 }
