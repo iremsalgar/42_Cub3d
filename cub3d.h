@@ -232,12 +232,4 @@ char	*ft_strstr(const char *haystack, const char *needle);
 int     ft_get_line_count(char *path);
 int     ft_isalnum(int c);
 char	*ft_strchr(const char *s, int c);
-int     ft_strcmp(const char *s1, const char *s2);
-int     free_map_return(char *map[], int return_value);
-int     print_error_return(char *error_message, int return_value);
-char	*ft_append(char **dst, char *src);
-int     ft_free(void *ptr);
-int     ft_chrcount(const char *str, char ch);
-char	*ft_strtrim(char const *s, char const *set);
-int     ft_str_arr_len(char **arr);
 #endif

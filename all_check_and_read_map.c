@@ -21,10 +21,13 @@ void    ft_read_map(t_data *data, char *cubfile)
     int     i;
     int     fd;
     char    *line;
+    int     line_count;
 
     i = -1;
     fd = open(cubfile, O_RDONLY);
-    data->map = malloc(10000);
+    line_count = ft_get_line_count("map.cub");
+    data->map = malloc(sizeof(char *) * (line_count + 1));
+    perror("Error1");
     while (1)
     {
         line = get_next_line(fd);
@@ -102,8 +105,10 @@ void    ft_adjust(t_data *data)
 
 void    ft_all_check_and_read_map(t_data *data, char *map)
 {
+    data = ft_calloc(sizeof(t_data),1);
     if (ft_check_cub(map))
     {
+        perror("if deyim");
         free(data);
         printf("Extension Wrong!\n");
     }
