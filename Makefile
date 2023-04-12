@@ -6,7 +6,7 @@ CC 		= gcc
 
 MFLAGS 	=  ./mlx/libmlx.a
 
-AFLAGS 	=  -Wall -Wextra -Werror -I./mlx 
+AFLAGS 	=  -Wall -Wextra -Werror -g -I./mlx
 
 RM 		= rm -rf
 
@@ -17,14 +17,14 @@ MAKE 	= make -C
 all 	:$(NAME)
 
 $(NAME)	: $(OBJS)
-	$(CC) $(OBJS) $(MFLAGS) $(CFLAGS) -framework OpenGL -framework AppKit -o $(NAME)
+	@($(CC) $(OBJS) $(MFLAGS) $(CFLAGS) -framework OpenGL -framework AppKit -o $(NAME))
 
 fclean 	: clean
-	$(RM) ./*.a
-	$(RM) $(NAME)
+	@$(RM) ./*.a
+	@$(RM) $(NAME)
 
 clean 	:
-	$(RM) ./*.o
+	@$(RM) ./*.o
 
 re 		: fclean all
 

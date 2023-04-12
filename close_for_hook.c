@@ -1,40 +1,47 @@
 #include "cub3d.h"
 
-int key_event(int key_data, void *arg)
+void	rotate_left(t_mlx *wind)
 {
-    t_cub3d *cub3d;
-
-    cub3d = (t_cub3d *)arg;
-    t_vector *vector;
-    t_mlx *mlx;
-
-    if(key_data == KEY_A)
-        move_left_right(vector, cub3d->map->map_content, cub3d->mlx, 2);
-    if(key_data == KEY_D)
-        move_left_right(vector, cub3d->map->map_content, cub3d->mlx, 1);
-    if(key_data == KEY_W)
-        move_forward_back(vector, cub3d->map->map_content, cub3d->mlx, 3);
-    if(key_data == KEY_S)
-        move_forward_back(vector, cub3d->map->map_content, cub3d->mlx, 4);
-    if(key_data == KEY_LEFT || key_data == KEY_RIGHT)
-        check_rotate(vector, mlx);
-    return(0);
+	wind->field_of_view -= PX_ROTATION;
+	if (wind->field_of_view > 360.0)
+		wind->field_of_view = 0;
+	if (wind->field_of_view < 0)
+		wind->field_of_view = 360.0;
 }
 
-int close_esc(int  key_data, void *arg)
+void	rotate_right(t_mlx *wind)
 {
-    t_cub3d *cub3d;
-
-    cub3d = (t_cub3d *)arg;
-    if (key_data == KEY_ESC)
-    {
-        //free and close window
-        return(0);
-    }
-    return (0);
+	wind->field_of_view += PX_ROTATION;
+	if (wind->field_of_view > 360.0)
+		wind->field_of_view = 0;
+	if (wind->field_of_view < 0)
+		wind->field_of_view = 360.0;
 }
 
-int	rgba(int r, int g, int b, int a)
+int	get_keys(int press, t_mlx *wind)
 {
-	return (r << 24 | g << 16 | b << 8 | a);
+	mlx_clear_window(wind->mlx, wind->window);
+	if (press == 124)
+		rotate_right(wind);
+	if (press == 123)
+		rotate_left(wind);
+	if (press == 2)
+		move_right(wind);
+	if (press == 0)
+		move_left(wind);
+	if (press == 13)
+		move_forward(wind);
+	if (press == 1)
+		move_backword(wind);
+	if (press == 53)
+		destroy_window(wind);
+	projecting_rays(wind);
+	return (0);
+}
+
+int	destroy_window(t_mlx *wind)
+{
+	mlx_destroy_window(wind->mlx, wind->window);
+	printf("Thanks for playing with us\n");
+	exit(0);
 }

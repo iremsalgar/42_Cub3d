@@ -3,15 +3,14 @@
 void    ft_check_file(t_data *data)
 {
     (void)data;
-    /*
     int fd;
 
-    fd = open("./picture/...", O_RDONLY, 777); 
+    fd = open("./texture/..", O_RDONLY, 777); 
     if (fd < 0)
     {
-        ("Wrong Path!\n");
+        write(1, "Error: texture file not found\n", 30);
         ft_clear(data);
-    }*/
+    }
 }
 
 int ft_check_six(char **map)

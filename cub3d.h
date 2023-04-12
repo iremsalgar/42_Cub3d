@@ -1,7 +1,7 @@
-# include <stddef.h>
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# include <stddef.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -10,6 +10,11 @@
 # include <stdbool.h>
 # include "./mlx/mlx.h"
 # include <string.h>
+
+# define WALL_1 "./textures/wall_1.xpm"
+# define WALL_2 "./textures/wall_2.xpm"
+# define WALL_3 "./textures/wall_3.xpm"
+# define WALL_4 "./textures/wall_4.xpm"
 
 # define FOV 0.66
 # define PI 3.14159265359
@@ -27,6 +32,8 @@
 #define KEY_LEFT 123
 #define KEY_RIGHT 124
 
+#define MAP "map.cub" 
+
 # define ALLOC_ERROR "Error\nAllocation Error\n"
 # define ARG_NULL_ERROR "Error\nArgument is NULL\n"
 # define NON_READABLE_FILE_ERROR "Error\nFile is not existent / invalid\n"
@@ -36,115 +43,35 @@
 # define INVALID_MAP_ERROR "Error\nInvalid Map in .cub file\n"
 # define INVALID_TEXTURE_PATH "Error\nInvalid Texture Path in .cub file\n"
 
-enum e_direction
-{
-    NORTH = 0,
-    SOUTH = 1,
-    WEST  = 2,
-    EAST = 3
-};
+# define WINDOW_WIDTH 1920.0
+# define WINDOW_HEIGHT 1080.0
 
-enum e_screensize
-{
-	SCREENWIDTH = 1920,
-	SCREENHEIGHT = 1080
-};
+# define TRUE 1
 
-enum e_grid
-{
-    x = 0,
-    y = 1
-};
+# define RED	0XFF0000
+# define WHITE	0XFFFFFF
+# define BLACK	0X000000
+# define PURPLE	0X800080
+# define BLUE	0X0000FF
+# define GREEN	0X00FF00
 
-enum e_borders
-{
-	NO_SO = 0, 
-	WE_EA = 1
-};
+# define WALL_DIM 64.0
+# define HALF_WALL 32.0
 
-typedef struct s_player
-{
-    int pos[2];
-    enum e_direction direction;
-} t_player;
+/*
+	Represents the angular of our triangle
+*/
+# define THETA	64.0
 
-typedef struct s_map  //sce_Des
-{
-    char    *texture[4];
-    char    **map_content;
-    int     floor_color;
-    int     sky_color;
-    t_player player;
-} t_map;
+/*
+	Distance to move in pixels
+*/
+# define PX_MOVE	10.0
 
-typedef struct s_vector
-{
-    double player_pos[2]; // x, y posX / posY
-    double player_dir[2]; // x, y dirX / dirY
-    double plane[2]; // x, y planeX / planeY camera
-} t_vector;
-
-typedef struct s_texture
-{
-    void    *img;
-    int     *addr;
-    int     bits_per_pixel;
-    int     line_length;
-    int     endian;
-    int     width;
-    int     height;
-    void    *mlx_ptr;
-}               t_texture;
-
-typedef struct s_mlx  //game
-{
-    void        *mlx_ptr;       // mlx
-    void        *img_ptr; // image
-    int         *win_ptr; // window
-    t_texture   *texture[4]; // 0 = north, 1 = south, 2 = west, 3 = east
-    t_vector    vector;
-    int         width;
-    int         height;
-} t_mlx;
-
-typedef struct s_cub3d
-{
-    t_map *map;
-    t_mlx *mlx;
-} t_cub3d;
-
-typedef struct s_raycast
-{
-    double camera_x;
-    double ray_pos[2]; // x, y posX / posY
-    int map_pos[2]; // x, y mapX / mapY
-    double map_delta[2]; // x, y deltaDistX / deltaDistY
-    double side_dist[2]; // x, y sideDistX / sideDistY playerPos + rayPos?
-    int direction[2]; // x, y stepX / stepY
-    int border; // 0 = NO_SO, 1 = WE_EA
-    int pot_wall_dir[2]; // x, y potantial wallX / wallY
-    int wall_dir; // 0 = north, 1 = south, 2 = west, 3 = east
-    double wall_dist; // wallDist 
-} t_raycast;
-
-typedef struct s_draw 
-{
-    int wall_height;
-    int draw_start;
-    int draw_end;
-    double hit_wall;
-    double step; // step for texture calc step is 1.0 * texture.height / wallHeight
-    int tex_pixel[2]; // x, y texX / texY
-    int tex_pos; // texPos
-} t_draw;
-
-typedef struct s_square
-{
-    t_mlx   *img;
-    int start_pixel[2]; // x, y
-    int len[2]; // x, y
-    int color;
-} t_square;
+/*
+	In ordre to rotate the player around 
+*/
+# define PX_ROTATION	10.0
 
 typedef struct s_data{
     char    **map;    
@@ -152,7 +79,104 @@ typedef struct s_data{
     int		last_line;
     int		max_long;
     int		map_weight;
+    char	*north_path;
+	char	*south_path;
+	char	*west_path;
+	char	*east_path;
+    int      floor_color;
+    int      ceiling_color;
 } t_data;
+
+typedef struct s_index {
+	int	n_derc;
+	int	n_color;
+	int	maze_index;
+	int	new_line;
+}	t_index;
+
+
+typedef struct s_my_mlx
+{
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+
+	int		bpp_n;
+	int		l_len_n;
+	int		endian_n;
+
+	int		bpp_s;
+	int		l_len_s;
+	int		endian_s;
+
+	int		bpp_w;
+	int		l_len_w;
+	int		endian_w;
+
+	int		bpp_e;
+	int		l_len_e;
+	int		endian_e;
+
+	int		bpp_c;
+	int		l_len_c;
+	int		endian_c;
+
+	char	*addr_n;
+	char	*addr_s;
+	char	*addr_w;
+	char	*addr_e;
+	char	*addr_c;
+}	t_my_mlx;
+
+typedef struct s_window
+{
+	void		*mlx;
+	void		*window;
+	char		**map;
+	int			width;
+	int			height;
+
+	char		*n_img;
+	char		*s_img;
+	char		*e_img;
+	char		*w_img;
+
+	char		*n_xpm;
+	char		*s_xpm;
+	char		*e_xpm;
+	char		*w_xpm;
+
+	double		field_of_view;
+
+	double		x_player;
+	double		y_player;
+
+	double		x_step;
+	double		y_step;
+
+	int			x_m;
+	int			y_m;
+
+	char		dir;
+
+	double		distance;
+	double		corrected_distance;
+
+	int			ceilling;
+	int			floor;
+
+	double		where;
+
+	double		dst_to_projection;
+	double		projection_3d;
+	double		flo_cei;
+	char		*color;
+
+	t_data	*data;
+	t_my_mlx	my_mlx;
+}	t_mlx;
 
 
 # ifndef BUFFER_SIZE
@@ -176,34 +200,43 @@ char	*ft_cutter(char *str, char c, int i);
 
 //functions
 int     main(int ac, char **av);
-int     ray_loop(void *data);
-int     key_event(int key_data, void *arg);
+void	images_to_xpm(t_mlx *wind);
+void	get_player_position(t_mlx *wind);
+void	set_field_of_view(t_mlx *wind, char in_map);
+int	    get_keys(int press, t_mlx *wind);
 
 //close
-int     close_esc(int  key_data, void *arg);
-
-//init
-int init_game(t_mlx *mlx, t_map *map);
+int	destroy_window(t_mlx *wind);
 
 //dda and raycasting
-
-void    rycstng_loop(void *data);
-void	init_wall_hit_calc(t_raycast *cast, t_mlx *game);
-void	wall_hit_calc(t_raycast *cast, t_map *map);
-void	wall_hit_calc_result(t_raycast *cast);
-void    draw_wall(t_raycast *cast, t_mlx *game, int ray_iter);
+void	casting_3d(double distance, int height, t_mlx *mlx, char dir);
+void	cast_rays(t_mlx *wind, double angle, int x);
+void	draw(t_mlx *mlx, int i, char dir);
+void	projecting_rays(t_mlx *wind);
+double	calculate_distance(double y_player, double x_player, double y_wall, double x_wall);
+double	fix_fisheye(t_mlx *mlx, double angle);
+void	my_mlx_pixel_put(t_my_mlx *data, int x, int y, int color);
 
 //move and rotate
-void	check_rotate(struct s_vector *vectors, t_mlx *mlx_ptr);
-void	check_move(t_vector *vectors, char **map, t_mlx *mlx_ptr);
-void	move_forward_back(struct s_vector *vector, char **map, t_mlx *mlx_ptr, int flag);
-void	move_left_right(t_vector *vectors, char **map, t_mlx *mlx_ptr, int flag);
-static inline void	move(
-	double new_player_y, double new_player_x, char **map, t_vector *vectors
-	);
+void	rotate_right(t_mlx *wind);
+void	rotate_left(t_mlx *wind);
+void	move_forward(t_mlx *wind);
+void	move_backword(t_mlx *wind);
+void	move_right(t_mlx *wind);
+void	move_left(t_mlx *wind);
 
-//rgba
-int	rgba(int r, int g, int b, int a);
+//direciton
+char	set_directions(double w_y, double w_x, t_mlx *wind);
+char	check_south_west(double w_y, double w_x, t_mlx *wind);
+char	check_south_east(double w_y, double w_x, t_mlx *wind);
+char	check_north_west(double w_y, double w_x, t_mlx *wind);
+char	check_north_east(double w_y, double w_x, t_mlx *wind);
+
+//texture
+char	*west_texture(t_mlx *mlx, int i);
+char	*east_texture(t_mlx *mlx, int i);
+char	*north_texture(t_mlx *mlx, int i);
+char	*south_texture(t_mlx *mlx, int i);
 
 //parser
 int     ft_check_cub(char *s);
@@ -216,20 +249,23 @@ void    ft_check_once_to_map(t_data *data);
 void    ft_addjust2(t_data *data);
 void    ft_check_file(t_data *data);
 void    ft_find(t_data *data);
+void	texture_value(t_data *data, char *line, int nbr);
+void    ft_check_text(t_data *data, char * line, int n_tex);
+int	    check_possiblty_tex(char *line );
+char	*get_path_check(char *line, char *ser);
 
 //utils
 int     ft_strlen(const char *s);
 int     ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_putstr_fd(char *s, int fd);
-void	*ft_free_split(char **split);
 int	    ft_atoi(const char *str);
 int	    ft_isspace(int c);
 int	    ft_isdigit(int c);
 int     ft_issign(int c);
 void	*ft_calloc(size_t count, size_t size);
 void    ft_bzero(void *s, size_t n); 
-char	*ft_strstr(const char *haystack, const char *needle);
 int     ft_get_line_count(char *path);
 int     ft_isalnum(int c);
 char	*ft_strchr(const char *s, int c);
+char	*ft_strtrim(char const *s1, char const *set);
 #endif

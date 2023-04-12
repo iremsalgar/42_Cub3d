@@ -58,10 +58,10 @@ void ft_control_last_lines2(t_data *data)
     int j;
 
     j = data->first_line;
-    while (j <= last_line)
+    while (j < last_line)
     {
         i = 0;
-        while (data->map[j][i])
+        while (data->map[j][i] && i < strlen(data->map[j]))
         {
             if (data->map[j][i] == '0')
             {

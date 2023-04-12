@@ -1,7 +1,7 @@
-NO ./path_to_the_north_texture
-SO ./path_to_the_north_texture
-WE ./path_to_the_north_texture
-EA ./path_to_the_north_texture
+SO ./texture/wall_2.xpm
+NO ./texture/wall_1.xpm
+WE ./texture/wall_3.xpm
+EA ./texture/wall_4.xpm
 
 F 220,100,0
 C 225,30,0
@@ -9,7 +9,7 @@ C 225,30,0
         1111111111111111111111111
         1000000000110000000000001
         1011000001110000011100001
-        1001000000000000000100001
+        100100000000000000100001
 111111111011000001110000011100001
 100000000011000001110111111111111
 11110111111111011100000010001

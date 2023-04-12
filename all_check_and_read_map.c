@@ -20,22 +20,25 @@ void    ft_read_map(t_data *data, char *cubfile)
 {
     int     i;
     int     fd;
-    char    *line;
+    static char    *line;
     int     line_count;
+    int		n_tex;
 
+    n_tex = 0;
     i = -1;
     fd = open(cubfile, O_RDONLY);
-    line_count = ft_get_line_count("map.cub");
+    line_count = ft_get_line_count(cubfile);
     data->map = malloc(sizeof(char *) * (line_count + 1));
-    perror("Error1");
     while (1)
     {
         line = get_next_line(fd);
         if (!line)
             break ;
         data->map[++i] = ft_strdup(line);
-        free(line);
-    }
+        line = ft_strtrim(line, "\n");
+        if(line[0] != '\0' && line[0] != '1' && line[0] != '0' && line[0] != '2' && line[0] != 'F' && line[0] != 'C' && line[0] != ' ')
+            ft_check_text(data, line, n_tex);
+    }    
     data->map[i + 1] = 0;
 }
 
@@ -105,10 +108,8 @@ void    ft_adjust(t_data *data)
 
 void    ft_all_check_and_read_map(t_data *data, char *map)
 {
-    data = ft_calloc(sizeof(t_data),1);
     if (ft_check_cub(map))
     {
-        perror("if deyim");
         free(data);
         printf("Extension Wrong!\n");
     }
