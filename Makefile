@@ -1,4 +1,4 @@
-SRCS 	= $(wildcard *.c)
+SRCS 	= $(wildcard ./src/*.c ./parse/*.c ./*.c ./utils/*.c)
 
 OBJS 	= $(SRCS:.c=.o)
 
@@ -24,7 +24,7 @@ fclean 	: clean
 	@$(RM) $(NAME)
 
 clean 	:
-	@$(RM) ./*.o
+	@$(RM) ./*.o ./src/*.o ./parse/*.o ./utils/*.o
 
 re 		: fclean all
 

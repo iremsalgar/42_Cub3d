@@ -16,14 +16,6 @@
 # define WALL_3 "./textures/wall_3.xpm"
 # define WALL_4 "./textures/wall_4.xpm"
 
-# define FOV 0.66
-# define PI 3.14159265359
-# define WALLHEIGHT 1
-# define MOVESPEED 0.03
-# define ROTSPEED 0.02
-# define FLOOR 0
-# define CEILING 1
-
 # define KEY_W 13
 # define KEY_A 0
 # define KEY_S 1
@@ -32,7 +24,7 @@
 #define KEY_LEFT 123
 #define KEY_RIGHT 124
 
-#define MAP "map.cub" 
+#define MAP "maps/map.cub" 
 
 # define ALLOC_ERROR "Error\nAllocation Error\n"
 # define ARG_NULL_ERROR "Error\nArgument is NULL\n"
@@ -43,17 +35,10 @@
 # define INVALID_MAP_ERROR "Error\nInvalid Map in .cub file\n"
 # define INVALID_TEXTURE_PATH "Error\nInvalid Texture Path in .cub file\n"
 
-# define WINDOW_WIDTH 1920.0
+# define WINDOW_WIDTH 1080.0
 # define WINDOW_HEIGHT 1080.0
 
 # define TRUE 1
-
-# define RED	0XFF0000
-# define WHITE	0XFFFFFF
-# define BLACK	0X000000
-# define PURPLE	0X800080
-# define BLUE	0X0000FF
-# define GREEN	0X00FF00
 
 # define WALL_DIM 64.0
 # define HALF_WALL 32.0
@@ -238,6 +223,12 @@ char	*east_texture(t_mlx *mlx, int i);
 char	*north_texture(t_mlx *mlx, int i);
 char	*south_texture(t_mlx *mlx, int i);
 
+//color
+void	get_color_values(t_data *parsing, char *line, t_index *index);
+int		ft_get_color(char *line, char *str);
+int		check_verg(char *line);
+int		stat_color(char s, int *vergul, int *nbr, int *rgb);
+
 //parser
 int     ft_check_cub(char *s);
 void    ft_clear(t_data *data);
@@ -250,9 +241,11 @@ void    ft_addjust2(t_data *data);
 void    ft_check_file(t_data *data);
 void    ft_find(t_data *data);
 void	texture_value(t_data *data, char *line, int nbr);
-void    ft_check_text(t_data *data, char * line, int n_tex);
+void    ft_check_text(t_data *data, char * line, int n_tex, t_index *index);
 int	    check_possiblty_tex(char *line );
 char	*get_path_check(char *line, char *ser);
+void    ft_read_map(t_data *data, char *cubfile, t_index *index);
+void    ft_check_have_map(t_data *data);
 
 //utils
 int     ft_strlen(const char *s);
@@ -267,5 +260,6 @@ void    ft_bzero(void *s, size_t n);
 int     ft_get_line_count(char *path);
 int     ft_isalnum(int c);
 char	*ft_strchr(const char *s, int c);
-char	*ft_strtrim(char const *s1, char const *set);
+char	*ft_strtrim(char *s1, char const *set);
+
 #endif
