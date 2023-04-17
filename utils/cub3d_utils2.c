@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d_utils2.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bkayan <bkayan@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/17 00:45:01 by bkayan            #+#    #+#             */
+/*   Updated: 2023/04/17 00:53:36 by bkayan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
 int	ft_atoi(const char *str)
@@ -29,31 +41,32 @@ int	ft_atoi(const char *str)
 
 int	ft_isspace(int c)
 {
-    if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r')
-        return (1);
-    return (0);
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\v'
+		|| c == '\f' || c == '\r')
+		return (1);
+	return (0);
 }
 
-int ft_issign(int c)
+int	ft_issign(int c)
 {
-    if (c == '-' || c == '+')
-        return (1);
-    return (0);
+	if (c == '-' || c == '+')
+		return (1);
+	return (0);
 }
 
-int ft_isdigit(int c)
+int	ft_isdigit(int c)
 {
-    if (c >= '0' && c <= '9')
-        return (1);
-    return (0);
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
 }
 
-int ft_strlen(const char *s)
+int	ft_strlen(const char *s)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (s[i])
-        i++;
-    return (i);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }

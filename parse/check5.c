@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check5.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bkayan <bkayan@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/17 00:42:38 by bkayan            #+#    #+#             */
+/*   Updated: 2023/04/17 02:18:35 by bkayan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
 int	stat_color(char s, int *vergul, int *nbr, int *rgb)
@@ -49,6 +61,7 @@ int	ft_get_color(char *line, char *str)
 	str_color = ft_strtrim(line, str);
 	if (str_color[0] != ',' && str_color[ft_strlen(str_color) - 1] != ',')
 		color = check_verg(str_color);
+	free(line);
 	free(str_color);
 	return (color);
 }

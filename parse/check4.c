@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check4.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bkayan <bkayan@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/17 00:42:35 by bkayan            #+#    #+#             */
+/*   Updated: 2023/04/17 04:38:00 by bkayan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
 int	check_possiblty_tex(char *line )
@@ -7,7 +19,6 @@ int	check_possiblty_tex(char *line )
 		return (1);
 	return (0);
 }
-
 
 char	*get_path_check(char *line, char *ser)
 {
@@ -32,7 +43,7 @@ char	*get_path_check(char *line, char *ser)
 
 void	texture_value(t_data *data, char *line, int nbr)
 {
-	while(nbr < 4)
+	while (nbr < 4)
 	{
 		if (!ft_strncmp(line, "SO ", 3) && data->south_path == NULL)
 			data->south_path = get_path_check(line, "SO");
@@ -50,14 +61,15 @@ void	texture_value(t_data *data, char *line, int nbr)
 	}
 }
 
-void ft_check_text(t_data *data, char * line, int n_tex, t_index *index)
+void	ft_check_text(t_data *data, char *line, int n_tex, t_index *index)
 {
-	t_mlx *wind;
-    char *ptr;
+	char	*ptr;
 
-    ptr = ft_strtrim(line, " ");
-    if (check_possiblty_tex(ptr) && (data->south_path == NULL || data->north_path == NULL || data->west_path == NULL || data->east_path == NULL))
-	    texture_value(data, ptr, n_tex);
+	ptr = ft_strtrim(line, " ");
+	if (check_possiblty_tex(ptr) && (data->south_path == NULL
+			|| data->north_path == NULL || data->west_path == NULL
+			|| data->east_path == NULL))
+		texture_value(data, ptr, n_tex);
 	else if (!ft_strncmp(ptr, "F ", 2) || !ft_strncmp(ptr, "C ", 2))
 		get_color_values(data, ptr, index);
 }

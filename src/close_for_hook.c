@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   close_for_hook.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bkayan <bkayan@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/17 00:42:58 by bkayan            #+#    #+#             */
+/*   Updated: 2023/04/17 04:57:17 by bkayan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
 void	rotate_left(t_mlx *wind)
@@ -43,6 +55,5 @@ int	destroy_window(t_mlx *wind)
 {
 	mlx_destroy_window(wind->mlx, wind->window);
 	printf("Thanks for playing with isalgar's cub\n");
-	//system("leaks cub3d");
 	exit(0);
 }

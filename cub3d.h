@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bkayan <bkayan@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/17 00:45:13 by bkayan            #+#    #+#             */
+/*   Updated: 2023/04/17 04:33:55 by bkayan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -21,10 +33,8 @@
 # define KEY_S 1
 # define KEY_D 2
 # define KEY_ESC 53
-#define KEY_LEFT 123
-#define KEY_RIGHT 124
-
-#define MAP "maps/map.cub" 
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
 
 # define ALLOC_ERROR "Error\nAllocation Error\n"
 # define ARG_NULL_ERROR "Error\nArgument is NULL\n"
@@ -58,19 +68,19 @@
 */
 # define PX_ROTATION	10.0
 
-typedef struct s_data{
-    char    **map;    
-    int		first_line;
-    int		last_line;
-    int		max_long;
-    int		map_weight;
-    char	*north_path;
+typedef struct s_data {
+	char	**map;
+	int		first_line;
+	int		last_line;
+	int		max_long;
+	int		map_weight;
+	char	*north_path;
 	char	*south_path;
 	char	*west_path;
 	char	*east_path;
-    int      floor_color;
-    int      ceiling_color;
-} t_data;
+	int		floor_color;
+	int		ceiling_color;
+}		t_data;
 
 typedef struct s_index {
 	int	n_derc;
@@ -78,7 +88,6 @@ typedef struct s_index {
 	int	maze_index;
 	int	new_line;
 }	t_index;
-
 
 typedef struct s_my_mlx
 {
@@ -159,10 +168,9 @@ typedef struct s_window
 	double		flo_cei;
 	char		*color;
 
-	t_data	*data;
+	t_data		*data;
 	t_my_mlx	my_mlx;
 }	t_mlx;
-
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
@@ -184,21 +192,22 @@ char	*ft_strdup(const char *s1);
 char	*ft_cutter(char *str, char c, int i);
 
 //functions
-int     main(int ac, char **av);
+int		main(int ac, char **av);
 void	images_to_xpm(t_mlx *wind);
 void	get_player_position(t_mlx *wind);
 void	set_field_of_view(t_mlx *wind, char in_map);
-int	    get_keys(int press, t_mlx *wind);
+int		get_keys(int press, t_mlx *wind);
 
 //close
-int	destroy_window(t_mlx *wind);
+int		destroy_window(t_mlx *wind);
 
 //dda and raycasting
 void	casting_3d(double distance, int height, t_mlx *mlx, char dir);
 void	cast_rays(t_mlx *wind, double angle, int x);
 void	draw(t_mlx *mlx, int i, char dir);
 void	projecting_rays(t_mlx *wind);
-double	calculate_distance(double y_player, double x_player, double y_wall, double x_wall);
+double	calculate_distance(double y_player, double x_player,
+			double y_wall, double x_wall);
 double	fix_fisheye(t_mlx *mlx, double angle);
 void	my_mlx_pixel_put(t_my_mlx *data, int x, int y, int color);
 
@@ -230,35 +239,35 @@ int		check_verg(char *line);
 int		stat_color(char s, int *vergul, int *nbr, int *rgb);
 
 //parser
-int     ft_check_cub(char *s);
-void    ft_clear(t_data *data);
-void    ft_check_map(t_data *data);
-void    ft_check_wall(t_data *data);
-void    ft_all_check_and_read_map(t_data *data, char *map);
-void    ft_check_for_long(t_data *data);
-void    ft_check_once_to_map(t_data *data);
-void    ft_addjust2(t_data *data);
-void    ft_check_file(t_data *data);
-void    ft_find(t_data *data);
+int		ft_check_cub(char *s);
+void	ft_clear(t_data *data);
+void	ft_check_map(t_data *data);
+void	ft_check_wall(t_data *data, char *map);
+void	ft_all_check_and_read_map(t_data *data, char *map);
+void	ft_check_for_long(t_data *data);
+void	ft_check_once_to_map(t_data *data);
+void	ft_addjust2(t_data *data);
+void	ft_check_file(t_data *data);
+void	ft_find(t_data *data);
 void	texture_value(t_data *data, char *line, int nbr);
-void    ft_check_text(t_data *data, char * line, int n_tex, t_index *index);
-int	    check_possiblty_tex(char *line );
+void	ft_check_text(t_data *data, char *line, int n_tex, t_index *index);
+int		check_possiblty_tex(char *line );
 char	*get_path_check(char *line, char *ser);
-void    ft_read_map(t_data *data, char *cubfile, t_index *index);
-void    ft_check_have_map(t_data *data);
+void	ft_read_map(t_data *data, char *cubfile, t_index *index);
+void	ft_check_have_map(t_data *data);
 
 //utils
-int     ft_strlen(const char *s);
-int     ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strlen(const char *s);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_putstr_fd(char *s, int fd);
-int	    ft_atoi(const char *str);
-int	    ft_isspace(int c);
-int	    ft_isdigit(int c);
-int     ft_issign(int c);
+int		ft_atoi(const char *str);
+int		ft_isspace(int c);
+int		ft_isdigit(int c);
+int		ft_issign(int c);
 void	*ft_calloc(size_t count, size_t size);
-void    ft_bzero(void *s, size_t n); 
-int     ft_get_line_count(char *path);
-int     ft_isalnum(int c);
+void	ft_bzero(void *s, size_t n);
+int		ft_get_line_count(char *path);
+int		ft_isalnum(int c);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strtrim(char *s1, char const *set);
 

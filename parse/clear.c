@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   clear.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bkayan <bkayan@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/17 00:42:44 by bkayan            #+#    #+#             */
+/*   Updated: 2023/04/17 00:42:45 by bkayan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
-void    ft_clear(t_data *data)
+void	ft_clear(t_data *data)
 {
-    int i;
+	int	i;
 
-    (void)data;
-    i = -1;
-    while (data->map[++i])
-        free(data->map[i]);
-    free(data->map);
-    free(data);
-    exit(0);
+	(void)data;
+	i = -1;
+	while (data->map[++i])
+		free(data->map[i]);
+	free(data->map);
+	free(data);
+	exit(0);
 }
